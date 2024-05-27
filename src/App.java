@@ -7,7 +7,7 @@ public class App {
 
          
        
-         int playerX = 3;
+         int playerX = 0;
          int playerY = 0;
          String[][] tabuleiro =  new String[10][10];
          
@@ -24,46 +24,49 @@ public class App {
         String palavra = palavraAleatoria();
         char[] letras = letras(palavra);
         char[]acertadas = acertadas(letras);
-        int especial = 10;
+        int especial = 1;
         while(x < tabuleiro.length && y < tabuleiro[0].length){
-    
-        for (String[] strings : tabuleiro) {
-            System.out.printf("═══");
-        }
+            
+            System.out.printf("══════════════════════════════");
         int casa = 1;
         for(int i = 0; i < tabuleiro.length; i++){
             
-                
-
+            
+            
             System.out.println();
             
             for(int j = 0; j <tabuleiro[i].length; j++){
-                if(j == 4){
+
+                if (x == especial && y == i){
+                    System.out.printf("\u001B[35m" +" @" + "\u001B[0m");
+                    System.out.printf("║");
+                    x = especial(x);
+                }
+                else if (x == j && y == i){
+                    System.out.printf("\u001B[35m" +" @" + "\u001B[0m");
+                    System.out.printf("║");
+                    
+                    }
+                else if (j % 5 == 0){
                     System.out.printf("\u001B[32m" + " §"+ "\u001B[0m");
                     System.out.printf("║");
-                    especial--;
-                }
-                if (x == j && y == i){
-                System.out.printf("\u001B[35m" +" @" + "\u001B[0m");
-                System.out.printf("║");
-                }else{
+                    especial = j;
+                
+                } else{
                     System.out.printf("%2d",casa);
                     System.out.printf("║");
                     casa++;
                 }
+                
+                
 
-                if( x == especial && y ==i && especial != 0){
-                    x = especial(x);
-                }
                 
                
                 
             }
             System.out.println("");
-            for (String[] strings : tabuleiro) {
-                System.out.printf("═══");
-            }
-            
+            System.out.printf("══════════════════════════════");
+
         }
         if(String.valueOf(acertadas).equals(String.valueOf(letras))){
             palavra = palavraAleatoria();
@@ -75,6 +78,8 @@ public class App {
             x = 0;
             y++;
         }
+        System.out.print("\033[H\033[2J");  
+    System.out.flush();  
     }
     }
     public static int dado() {
@@ -84,7 +89,7 @@ public class App {
     }
     public static String palavraAleatoria() {
         Random random = new Random();
-            String[ ] entrada = {"batata", "cenoura", "abacaxi", "tomate", "morango", "melancia", "carambola", "amendoim", "abobora", "pessego", "banana", "laranja", "abacate", "cebola", "pneumoultramicroscopicossilicovulcanoconiotico", "beterraba", "alface", "almôndega", "parmesao", "pimentao", "almofada", "chocolate", "geladeira", "travesseiro", "pneumoultramicroscopicossilicovulcanoconiotico", "computador", "televisao", "refrigerante", "sorvete", "pipoca", "relogio", "guitarra", "teclado", "pneumoultramicroscopicossilicovulcanoconiotico", "celular", "espelho", "ventilador", "cadeira", "escova", "perfume", "caneta", "tesoura", "pneumoultramicroscopicossilicovulcanoconiotico", "pneumoultramicroscopicossilicovulcanoconiotico", "pneumoultramicroscopicossilicovulcanoconiotico"};
+            String[ ] entrada = {"batata", "cenoura", "abacaxi", "tomate", "morango", "melancia", "carambola", "amendoim", "abobora", "pessego", "banana", "laranja", "abacate", "cebola", "pneumoultramicroscopicossilicovulcanoconiotico", "beterraba", "alface", "almondega", "parmesao", "pimentao", "almofada", "chocolate", "geladeira", "travesseiro", "pneumoultramicroscopicossilicovulcanoconiotico", "computador", "televisao", "refrigerante", "sorvete", "pipoca", "relogio", "guitarra", "teclado", "pneumoultramicroscopicossilicovulcanoconiotico", "celular", "espelho", "ventilador", "cadeira", "escova", "perfume", "caneta", "tesoura", "pneumoultramicroscopicossilicovulcanoconiotico", "pneumoultramicroscopicossilicovulcanoconiotico", "pneumoultramicroscopicossilicovulcanoconiotico"};
             int indice = random.nextInt(entrada.length);
             // Selecionar uma palavra aleatoria
              String palavraAleatoria = entrada[indice];
@@ -106,34 +111,56 @@ public class App {
     }
     public static int especial(int x) {
         Random rand = new Random();
-        int a = rand.nextInt(1,6);
+        int a = rand.nextInt(1,7);
         switch (a) {
+             
             case 1:
-                x+= 2;
-                System.out.println("Que sorte! Avance 2 casas");
+            System.out.print("\033[H\033[2J");  
+            System.out.flush();
+            System.out.println("Que sorte! Avance 2 casas");
+            x+=2;
                 break;
         
             case 2:
-            System.out.println("Que azar! Volte 3 casas");
-                x -= 3;
-                break;
-        
-            case 3:
-            System.out.println("Que sorte! Avance 1 casa");
-                x++;
-                break;
-        
-            case 4:
-            System.out.println("Que sorte! Avance 4 casas");
-                x+=4;
-                break;
-        
-            case 5:
+            System.out.print("\033[H\033[2J");  
+            System.out.flush();
                 System.out.println("Que azar! Volte 4 casas");
                 x-=4;
                 break;
         
+            case 3:
+            System.out.print("\033[H\033[2J");  
+            System.out.flush();
+                System.out.println("Que sorte! Avance 1 casas");
+                x++;
+                break;
+        
+            case 4:
+            System.out.print("\033[H\033[2J");  
+            System.out.flush();
+                System.out.println("Que sorte! Avance 3 casas");
+                x+=3;
+                break;
+        
+            case 5:
+            System.out.print("\033[H\033[2J");  
+            System.out.flush();
+                System.out.println("Que azar! Volte 1 casa");
+                x-=1;
+                break;
+        
+            case 6:
+            System.out.print("\033[H\033[2J");  
+            System.out.flush();
+                System.out.println("Que sorte! Avance 4 casas");
+                x+=4;
+                break;
+        
+            default:
+                break;
         }
+
+        
         return x;
     }
     public static void logo() {
@@ -220,9 +247,11 @@ public class App {
                                         default:
                                             break;
                                     };
+                                    System.out.print("\033[H\033[2J");  
+        System.out.flush();    
         }
        
-                                
+           
                                 
     }
     public static int forca(String palavraAleatoria, char[] letras, char[] acertadas) {

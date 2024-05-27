@@ -1,9 +1,0 @@
-    public static String palavraAleatoria() {
-        Random random = new Random();
-            String[ ] entrada = {"batata", "cenoura", "abacaxi", "tomate", "morango", "melancia", "carambola", "amendoim", "abobora", "pessego", "banana", "laranja", "abacate", "cebola", "pneumoultramicroscopicossilicovulcanoconiotico", "beterraba", "alface", "almôndega", "parmesao", "pimentao", "almofada", "chocolate", "geladeira", "travesseiro", "pneumoultramicroscopicossilicovulcanoconiotico", "computador", "televisao", "refrigerante", "sorvete", "pipoca", "relogio", "guitarra", "teclado", "pneumoultramicroscopicossilicovulcanoconiotico", "celular", "espelho", "ventilador", "cadeira", "escova", "perfume", "caneta", "tesoura", "pneumoultramicroscopicossilicovulcanoconiotico", "pneumoultramicroscopicossilicovulcanoconiotico", "pneumoultramicroscopicossilicovulcanoconiotico"};
-            int indice = random.nextInt(entrada.length);
-            // Selecionar uma palavra aleatoria
-             String palavraAleatoria = entrada[indice];
-
-             return palavraAleatoria;
-    }
