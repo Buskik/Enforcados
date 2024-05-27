@@ -6,28 +6,80 @@ public class App {
     public static void main(String[] args) {
 
          
-       
-         int playerX = 0;
-         int playerY = 0;
+        String palavra = palavraAleatoria();
+        char[] letras = letras(palavra);
+        char[]acertadas = acertadas(letras);
+         int x1 = 0;
+         int y1 = 0;
+         int x2 = 0;
+         int y2 = 0;
+         Object[] visao1 = {};
+         Object[] visao2 = {};
          String[][] tabuleiro =  new String[10][10];
          
             menu();
-            tab(playerX, playerY, tabuleiro);
-         
-        
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Nome do jogador 1:");
+            String player1 = sc.next();
+            System.out.println("Nome do jogador 2:");
+            String player2 = sc.next();
+            while((x1 < tabuleiro.length && y1 < tabuleiro[0].length) || (x2 < tabuleiro.length && y2 < tabuleiro[0].length)){
 
+                if(String.valueOf(letras).equals(String.valueOf(acertadas))){
+                    palavra = palavraAleatoria();
+                    letras = letras(palavra);
+                    acertadas = acertadas(letras);
+               }
+                visao1 = tab2(x1, y1,x2,y2, tabuleiro, player1, palavra, acertadas, letras);
+                acertadas = (char[]) visao1[2];
+
+                x1 = (int) visao1[0];
+
+                if (x1 >= tabuleiro[0].length){
+                    x1 = 0;
+                    y1++;
+                }
+                if (x2 >= tabuleiro[0].length){
+                    x2 = 0;
+                    y2++;
+                
+                }
+                visao2 = tab2(x2, y2,x1,y1, tabuleiro, player2, palavra,acertadas, letras);
+                acertadas = (char[]) visao2[2];
+                x2 = (int) visao2[0];
+                if (x1 >= tabuleiro[0].length){
+                    x1 = 0;
+                    y1++;
+                }
+                if (x2 >= tabuleiro[0].length){
+                    x2 = 0;
+                    y2++;
+                 
+                    
+            }
+            if(String.valueOf(letras).equals(String.valueOf(acertadas))){
+                palavra = palavraAleatoria();
+                letras = letras(palavra);
+                acertadas = acertadas(letras);
+           }
+            
+        }
+            System.out.println("Você venceu!");
+
+            String a = sc.next();
+            menu();
+       
 
       
       
     }
-    public static void tab(int x, int y, String[][] tabuleiro) {
-        String palavra = palavraAleatoria();
-        char[] letras = letras(palavra);
-        char[]acertadas = acertadas(letras);
+
+    public static Object[] tab2(int x1, int y1, int x2, int y2, String[][] tabuleiro, String player, String palavra, char[] acertadas, char[] letras) {
+        
         int especial = 1;
-        while(x < tabuleiro.length && y < tabuleiro[0].length){
-            
-            System.out.printf("══════════════════════════════");
+        {
+            System.out.println("\u001B[35m" + player + "\u001B[0m");
+            System.out.printf("══════════════════════════════════════");
         int casa = 1;
         for(int i = 0; i < tabuleiro.length; i++){
             
@@ -36,13 +88,23 @@ public class App {
             System.out.println();
             
             for(int j = 0; j <tabuleiro[i].length; j++){
-
-                if (x == especial && y == i){
+                
+             if (x1 == especial && y1 == i){
+                x1 = especial(x1);
                     System.out.printf("\u001B[35m" +" @" + "\u001B[0m");
                     System.out.printf("║");
-                    x = especial(x);
+                    
+                   
                 }
-                else if (x == j && y == i){
+                else if (x1 == x2 && y1 == y2 && x1 == j && y1 == i){
+                    System.out.printf("\u001B[35m" + " ½" + "\u001B[0m");
+                    System.out.printf("║");
+                }
+                else if (x2 == j && y2 == i){
+                    System.out.printf(" @");
+                    System.out.printf("║");
+                }
+                else if (x1 == j && y1 == i){
                     System.out.printf("\u001B[35m" +" @" + "\u001B[0m");
                     System.out.printf("║");
                     
@@ -53,35 +115,38 @@ public class App {
                     especial = j;
                 
                 } else{
-                    System.out.printf("%2d",casa);
+                    System.out.printf("%3d",casa);
                     System.out.printf("║");
-                    casa++;
+                    
                 }
                 
-                
+                casa++;
 
                 
                
                 
             }
             System.out.println("");
-            System.out.printf("══════════════════════════════");
+            System.out.printf("══════════════════════════════════════");
+            
+        }
 
-        }
-        if(String.valueOf(acertadas).equals(String.valueOf(letras))){
-            palavra = palavraAleatoria();
-               letras = letras(palavra);
-               acertadas = acertadas(letras);
-       }
-        x += forca(palavra, letras, acertadas);
-        if (x >= tabuleiro[0].length){
-            x = 0;
-            y++;
-        }
+        Object[] a = forca(palavra, letras, acertadas);
+        int dado = (int) a[0];
+        acertadas = (char[]) a[1];
+        x1 += dado;
+        
         System.out.print("\033[H\033[2J");  
     System.out.flush();  
+    
     }
-    }
+    
+    Object[] b = {x1,letras,acertadas};
+
+            return b ;
+}
+
+
     public static int dado() {
         Random random = new Random();
         int valor = random.nextInt(1,7);
@@ -118,6 +183,7 @@ public class App {
             System.out.print("\033[H\033[2J");  
             System.out.flush();
             System.out.println("Que sorte! Avance 2 casas");
+            
             x+=2;
                 break;
         
@@ -254,7 +320,7 @@ public class App {
            
                                 
     }
-    public static int forca(String palavraAleatoria, char[] letras, char[] acertadas) {
+    public static Object[] forca(String palavraAleatoria, char[] letras, char[] acertadas) {
         int dado = 0;
         
        Scanner scan = new Scanner(System.in);
@@ -291,7 +357,8 @@ public class App {
         
         
     }
-    return dado;
+    Object[] a = {dado, acertadas};
+    return a;
     }
 }
 
